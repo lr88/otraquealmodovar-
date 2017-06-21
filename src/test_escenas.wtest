@@ -1,5 +1,5 @@
 import fixture.*
- 
+  
 test "Una escena al crearla contiene su descripcion de la escena" {
 	fixture.iniciarContexto()
 	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena1())
