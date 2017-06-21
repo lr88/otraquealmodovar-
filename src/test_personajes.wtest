@@ -1,0 +1,85 @@
+import fixture.*
+
+test "Cuando se crea un personaje este se le pregunta el sexo y contesta con el sexo correcto " {
+	fixture.iniciarContexto()
+	assert.equals("hombre",fixture.persona1().sexo())
+}
+test "Cuando se crea un personaje este se le pregunta si esta vivo y contesta true " {
+	fixture.iniciarContexto()
+	assert.that(fixture.persona1().estoyVivo())
+}
+
+test "Cuando se crea un personaje este se le indica que esta muerto y si se le pregunta el si esta vivo y contesta false " {
+	fixture.iniciarContexto()
+	fixture.persona1().estadoDeVida(false)
+	assert.notThat(fixture.persona1().estoyVivo())
+}
+
+test "Cuando se crea un personaje este se le pregunta si es feliz y si su nivel de felicidad es mayor a 50 entonces esta feliz " {
+	fixture.iniciarContexto()
+	assert.that(fixture.persona1().estoyFeliz())
+}
+
+test "Cuando se crea un personaje este se le pregunta si es feliz y si su nivel de felicidad es menor a 50 entonces no esta feliz " {
+	fixture.iniciarContexto()
+	fixture.persona1().variarFelicidad(-70)
+	assert.notThat(fixture.persona1().estoyFeliz())
+}
+
+test "Cuando se crea un personaje y este es protagonico y le decimos tener sexo, valria su felicidad el doble del valor de AumentoDefelicidad " {
+	fixture.iniciarContexto()
+	fixture.persona3().tenerSexo(60)
+	assert.equals(160,fixture.persona3().valorDeMiFelicidad())
+}
+
+test "Cuando se crea un personaje y este es Asesino y le decimos tener sexo, no produce cambios en su felicidad ni en su salud" {
+	fixture.iniciarContexto()
+	fixture.persona2().tenerSexo(60)
+	assert.equals(100,fixture.persona2().valorDeMiFelicidad())
+}
+
+test "Cuando se crea un personaje y este es Extra y le decimos tener sexo muere" {
+	fixture.iniciarContexto()
+	fixture.persona4().tenerSexo(60)
+	assert.notThat(fixture.persona4().estoyVivo())
+}
+
+test "Cuando se crea un personaje y este es protagonico y le decimos besar, valria su felicidad el valor de Aumento De felicidad " {
+	fixture.iniciarContexto()
+	fixture.persona3().darseUnBeso(30)
+	assert.equals(130,fixture.persona3().valorDeMiFelicidad())
+}
+
+test "Cuando se crea un personaje y este es Asesino y le decimos besar, no produce cambios en su felicidad ni en su salud" {
+	fixture.iniciarContexto()
+	fixture.persona2().darseUnBeso(30)
+	assert.equals(100,fixture.persona2().valorDeMiFelicidad())
+}
+
+test "Cuando se crea un personaje y este es Extra y le decimos besar, no produce cambios en su felicidad ni en su salud" {
+	fixture.iniciarContexto()
+	fixture.persona4().darseUnBeso(30)
+	assert.equals(100,fixture.persona4().valorDeMiFelicidad())
+}
+
+
+
+
+/*
+ * persona1 = new Extra("hombre")	
+	persona2 = new Asesino("hombre")
+	persona3 = new Protagonico("mujer")	
+	persona4 = new Extra("mujer")
+ * 	
+ */
+
+
+/////// revisar
+test "Una vez transcurrida la película, los personajes  sus consecuencias " {
+	fixture.iniciarContexto()
+	//fixture.persona1().consecuenciaDeLaEscena(true,true) 
+	assert.that(fixture.persona1().estoyVivo())
+
+}
+////////////////
+  

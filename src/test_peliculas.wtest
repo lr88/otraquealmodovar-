@@ -1,0 +1,74 @@
+//import peliculas.*
+//import personajes.*
+//import guiones.*
+import fixture.*
+import escenas.*
+
+ // console.println('Hello Wollok!')
+test
+"En la situacion inicial de la pelicula se consulta cuanto tarda una pelicula completa"
+{	fixture.iniciarContexto()
+	assert.equals(10, fixture.pelicula1().duracionDeLaPelicula())
+}
+
+test
+"En la situacion inicial de la pelicula se consulta quienes son los personajes de la pelicula"
+{	fixture.iniciarContexto()
+	fixture.pelicula1().aregarPersonaje(fixture.persona1())
+	assert.that(fixture.pelicula1().personajes().contains(fixture.persona1()))
+}
+
+test
+"Una pelicula se le consulta el guion y esta devuelve el guion esperado"
+{	fixture.iniciarContexto()
+	assert.equals(fixture.guionDeUnaPelicula(),fixture.pelicula1().guionDeLaPelicula())
+}
+
+test
+"Cuando una pelicula transcurre y en el guion de la pelicula, no muere nadie, este, tiene a todos sus personajes vivos"
+{	fixture.crearPeliculaCompleta()
+	assert.equals(4,fixture.pelicula1().cantidadDeVivos())
+}
+
+test
+"Cuando una pelicula transcurre y a esta se le consulta si corrio sangre esta devuelve false si no murieron la mitad de los personajes "
+{	fixture.crearPeliculaCompleta()
+	assert.notThat(fixture.pelicula1().corrioSangre())
+}
+
+test
+"Cuando una pelicula transcurre y a esta se le consulta si es pochoclera esta devuelve true si hay un personaje hombre y uno mujer que sean felices "
+{	fixture.crearPeliculaCompleta()
+	assert.that(fixture.pelicula1().esPochoclera())
+}
+
+test
+"Cuando una pelicula transcurre y a esta se le consulta si es pochoclera esta devuelve false si no hay un personaje hombre o uno mujer que sean felices "
+{	fixture.crearPeliculaCompleta()
+	fixture.pelicula1().sacarPersonaje(fixture.persona3())
+	fixture.pelicula1().sacarPersonaje(fixture.persona4())
+	assert.notThat(fixture.pelicula1().esPochoclera())
+}
+
+test
+"Cuando una pelicula transcurre y a esta se le consulta si es tiene final feliz esta devuelve true si todos los personajes vivos son felices "
+{	fixture.crearPeliculaCompleta()
+	assert.that(fixture.pelicula1().tieneFinalFeliz())
+}
+
+
+
+
+// revisar
+/////////////////
+test
+"Cuando una pelicula transcurre y en el guion de la pelicula muere uno, este, tiene vivos a todos sus personajes menos 1"
+{	fixture.crearPeliculaCompleta()
+	//var escena = new Escena (2,"vive feliz")
+	//fixture.pelicula1().guionDeLaPelicula().agregarEscena(escena)
+	assert.equals(2,fixture.pelicula1().cantidadDeVivos())
+}
+////////////////////////////
+
+
+

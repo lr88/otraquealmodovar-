@@ -1,0 +1,16 @@
+import fixture.*
+
+test "Una escena al crearla contiene su descripcion de la escena" {
+	fixture.iniciarContexto()
+	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena1())
+	assert.equals(["vive feliz"], fixture.guionDeUnaPelicula().queLePasaALosPersonajes())
+}
+
+//revisar
+////////////////////////////////////
+test "Una escena al crearla contiene su consecuencia de la escena" {
+	fixture.iniciarContexto()
+	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena1())
+	assert.equals(["vive feliz"], fixture.guionDeUnaPelicula().queLePasaALosPersonajes())
+}
+////////////////////////////////

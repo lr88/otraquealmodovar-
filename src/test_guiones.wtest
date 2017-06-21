@@ -1,0 +1,9 @@
+import fixture.*
+
+test "Al agregar una Escena a una pelicula este contiene dicho guion" {
+	fixture.iniciarContexto()
+	fixture.guionDeUnaPelicula().agregarEscena(3)
+	assert.that(fixture.guionDeUnaPelicula().escenas().contains(3))
+
+}
+
