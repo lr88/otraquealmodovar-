@@ -2,7 +2,7 @@ import peliculas.*
 import personajes.*
 import guiones.*
 import escenas.*
-
+  
 object fixture {
 	var guionDeUnaPelicula
 	 

@@ -7,7 +7,7 @@ class Pelicula {
 	constructor(_guionDeLaPelicula,_duracion){
 		guionDeLaPelicula = _guionDeLaPelicula
 		duracion = _duracion
-	}
+	}  
 	 
 	method play(){
 		guionDeLaPelicula.reproducir()

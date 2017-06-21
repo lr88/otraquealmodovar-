@@ -10,7 +10,7 @@ test
 {	fixture.iniciarContexto()
 	assert.equals(10, fixture.pelicula1().duracionDeLaPelicula())
 }
-
+    
 test
 "En la situacion inicial de la pelicula se consulta quienes son los personajes de la pelicula"
 {	fixture.iniciarContexto()

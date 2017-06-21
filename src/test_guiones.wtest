@@ -6,4 +6,4 @@ test "Al agregar una Escena a una pelicula este contiene dicho guion" {
 	assert.that(fixture.guionDeUnaPelicula().escenas().contains(3))
 
 }
-
+  

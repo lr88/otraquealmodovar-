@@ -1,7 +1,7 @@
 class Escena {
 	var personajesExtras = []
 	
-	
+	  
 	method agregarExtra(unExtra){
 		personajesExtras.add(unExtra)
 	}

@@ -6,7 +6,7 @@ class Personaje {
 	constructor(_sexo){
 		sexo = _sexo
 		}
-	
+	  
 	method sexo(){
 		return sexo
 	}
