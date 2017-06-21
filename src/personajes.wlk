@@ -43,7 +43,7 @@ class Asesino inherits Personaje {
 	constructor(_sexo) = super(_sexo)
 
 	method papelEnLaPelicula(){
-		return "asiseno"
+		return "asesino"
 	}
 
 	override method tenerSexo(valor){}
@@ -86,5 +86,17 @@ class Extra inherits Personaje {
 
 }
 
+class Victima inherits Personaje {
+	
+	constructor(_sexo) = super(_sexo)
 
+	method papelEnLaPelicula(){
+		return "victima"
+	}
+
+	override method tenerSexo(valor){}
+	
+	override method darseUnBeso(valor){}
+
+}
 

@@ -12,6 +12,8 @@ object fixture {
 	var persona2
 	var persona3
 	var persona4
+	var persona5
+	
 	
 	var escena1
 	var escena2
@@ -20,11 +22,15 @@ object fixture {
 	
 	method iniciarContexto(){
 	guionDeUnaPelicula = new GuionDeLaPelicula()
+	
 	pelicula1= new Pelicula (guionDeUnaPelicula,10)
+	
 	persona1 = new Extra("hombre")	
 	persona2 = new Asesino("hombre")
 	persona3 = new Protagonico("mujer")	
 	persona4 = new Extra("mujer")	
+	persona5 = new Victima("mujer")	
+	
 	escena1 = new EscenaDeAccion ()
 	escena2 = new EscenaDeAsesinato ()
 	escena3 = new EscenaRomantica ()
@@ -38,13 +44,24 @@ object fixture {
 		guionDeUnaPelicula.agregarEscena(escena1)
 		guionDeUnaPelicula.agregarEscena(escena2)
 		guionDeUnaPelicula.agregarEscena(escena3)
+		guionDeUnaPelicula.agregarEscena(escena4)
 		
 		pelicula1.aregarPersonaje(persona1)
 		pelicula1.aregarPersonaje(persona2)
 		pelicula1.aregarPersonaje(persona3)
 		pelicula1.aregarPersonaje(persona4)
 		
+		escena1.agregarExtra(persona1)
+		escena1.agregarExtra(persona2)
+		
+		escena2.agregarExtra(persona2)
+		escena2.agregarExtra(persona5)
+		
+		
+		
 	}
+	
+	
 	
 	method guionDeUnaPelicula(){
 		return guionDeUnaPelicula
@@ -70,6 +87,10 @@ object fixture {
 		return persona4
 	}
 	
+	method persona5(){
+		return persona5
+	}
+	
 	method escena1(){
 		return escena1
 	}
@@ -82,4 +103,7 @@ object fixture {
 		return escena3
 	}
 	
+	method escena4(){
+		return escena4
+	}
 }

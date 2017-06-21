@@ -1,16 +1,94 @@
 import fixture.*
-  
-test "Una escena al crearla contiene su descripcion de la escena" {
+import escenas.*
+
+test "Una escena de accion al crearla contiene su descripcion de la escena" {
 	fixture.iniciarContexto()
-	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena1())
-	assert.equals(["vive feliz"], fixture.guionDeUnaPelicula().queLePasaALosPersonajes())
+	assert.equals(accion.descripcion(), fixture.escena1().queLePasaALosPersonajes())
 }  
 
-//revisar
-////////////////////////////////////
-test "Una escena al crearla contiene su consecuencia de la escena" {
+test "Una escena de asesinatos al crearla contiene su descripcion de la escena" {
+	fixture.iniciarContexto()
+	assert.equals(asesinatos.descripcion(), fixture.escena2().queLePasaALosPersonajes())
+}
+
+test "Una escena romantica al crearla contiene su descripcion de la escena" {
+	fixture.iniciarContexto()
+	assert.equals(romantica.descripcion(), fixture.escena3().queLePasaALosPersonajes())
+}
+
+test "Una escena relleno al crearla contiene su descripcion de la escena" {
+	fixture.iniciarContexto()
+	assert.equals(relleno.descripcion(), fixture.escena4().queLePasaALosPersonajes())
+}
+
+test "Cuando a una escena se le consulta los personajes Extras, esta contiene los personajes que se agregaron" {
+	fixture.iniciarContexto()
+	fixture.escena1().agregarExtra(fixture.persona1())
+	fixture.escena1().agregarExtra(fixture.persona2())
+	assert.that(fixture.escena1().personajesExtras().contains(fixture.persona1())and fixture.escena1().personajesExtras().contains(fixture.persona2()))
+}
+
+test "Cuando una explocion sucede, los personajes Extras, mueren pero los actores principales no" {
 	fixture.iniciarContexto()
 	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena1())
-	assert.equals(["vive feliz"], fixture.guionDeUnaPelicula().queLePasaALosPersonajes())
+	fixture.escena1().agregarExtra(fixture.persona1())
+	fixture.escena1().agregarExtra(fixture.persona2())
+	fixture.pelicula1().aregarPersonaje(fixture.persona3())
+	fixture.pelicula1().aregarPersonaje(fixture.persona4())
+	explocion.afectar(fixture.pelicula1(), fixture.escena1())
+	assert.that(!fixture.persona1().estoyVivo()and !fixture.persona2().estoyVivo() and fixture.persona3().estoyVivo() and fixture.persona4().estoyVivo())
 }
-///////////////////////////////////
+
+test "Cuando una explocion sucede, los actores principales disminuyen su felicidad" {
+	fixture.iniciarContexto()
+	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena1())
+	fixture.pelicula1().aregarPersonaje(fixture.persona1())
+	explocion.afectar(fixture.pelicula1(), fixture.escena1())
+	assert.that(fixture.persona1().valorDeMiFelicidad()<100)
+}
+
+test "Cuando una escena de accion transcurre, los personajes Extras, mueren pero los actores principales no" {
+	fixture.iniciarContexto()
+	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena1())
+	fixture.escena1().agregarExtra(fixture.persona1())
+	fixture.escena1().agregarExtra(fixture.persona2())
+	fixture.pelicula1().aregarPersonaje(fixture.persona3())
+	fixture.pelicula1().aregarPersonaje(fixture.persona4())
+	fixture.escena1().transcurrir(fixture.pelicula1())
+	assert.that(!fixture.persona1().estoyVivo()and !fixture.persona2().estoyVivo() and fixture.persona3().estoyVivo() and fixture.persona4().estoyVivo())
+}
+
+test "Cuando una escena de asesinato existe un asesino esta lo contiene" {
+	fixture.crearPeliculaCompleta()
+	assert.that(fixture.escena2().hayUnAsesino(fixture.pelicula1()))
+}
+
+test "Cuando una escena de asesinato existe una victima esta lo contiene" {
+	fixture.crearPeliculaCompleta()
+	assert.that(fixture.escena2().hayUnaVictima(fixture.pelicula1()))
+}
+
+
+test "Cuando una escena de asesinato transcurre, la victima muere" {
+	fixture.crearPeliculaCompleta()
+	fixture.escena2().transcurrir(fixture.pelicula1())
+	assert.notThat(fixture.persona5().estoyVivo())
+}
+
+
+test "Cuando una escena de asesinato transcurre, el asesino es mas feliz" {
+	fixture.crearPeliculaCompleta()
+	fixture.escena2().transcurrir(fixture.pelicula1())
+	assert.equals(140,fixture.persona2().valorDeMiFelicidad())
+}
+
+test "Cuando una escena de relleno transcurre, el tiempo de la pelicula aumenta " {
+	fixture.crearPeliculaCompleta()
+	fixture.escena4().transcurrir(fixture.pelicula1())
+	assert.equals(40,fixture.pelicula1().duracionDeLaPelicula())
+}
+
+test "Finalizo el testeo" {
+	console.println("Termino el testeo")
+	assert.that(true)
+}

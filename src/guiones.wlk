@@ -3,11 +3,11 @@ class GuionDeLaPelicula {
 	var escenas = [ ]
 
 	method queLePasaALosPersonajes() {
-		return escenas.map({ escena => escena.queLePasaALosPersonajes() })
+		return escenas.map({ escena => escena.queLePasaALosPersonajes()})
 	}
   
-	method reproducir() {
-		escenas.forEach({ escena => escena.transcurrir()})
+	method reproducir(unaPelicula) {
+		escenas.forEach({escena => escena.transcurrir(unaPelicula)})
 	}
 
 	method agregarEscena(unaEscena) {
@@ -17,4 +17,9 @@ class GuionDeLaPelicula {
 	method escenas(){
 		return escenas
 	}
+}
+
+class EscenaFlashback inherits GuionDeLaPelicula{
+	
+	
 }

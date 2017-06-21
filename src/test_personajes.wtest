@@ -61,25 +61,8 @@ test "Cuando se crea un personaje y este es Extra y le decimos besar, no produce
 	fixture.persona4().darseUnBeso(30)
 	assert.equals(100,fixture.persona4().valorDeMiFelicidad())
 }
-
-
-
-
-/*
- * persona1 = new Extra("hombre")	
-	persona2 = new Asesino("hombre")
-	persona3 = new Protagonico("mujer")	
-	persona4 = new Extra("mujer")
- * 	
- */
-
-
-/////// revisar
-test "Una vez transcurrida la película, los personajes  sus consecuencias " {
-	fixture.iniciarContexto()
-	//fixture.persona1().consecuenciaDeLaEscena(true,true) 
-	assert.that(fixture.persona1().estoyVivo())
-
+test "Finalizo el testeo" {
+	console.println("Termino el testeo")
+	assert.that(true)
 }
-////////////////
   

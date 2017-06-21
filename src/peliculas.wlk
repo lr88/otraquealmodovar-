@@ -1,17 +1,30 @@
 class Pelicula {
 		
-	var personajes = #{}
+	var personajes = []
 	var duracion = 10
 	var guionDeLaPelicula 
+	var escenaFlashback = []
 	
 	constructor(_guionDeLaPelicula,_duracion){
 		guionDeLaPelicula = _guionDeLaPelicula
 		duracion = _duracion
 	}  
-	 
+	
 	method play(){
-		guionDeLaPelicula.reproducir()
+		console.println("La conclusion  de esta pelicula es que")
+		[guionDeLaPelicula , escenaFlashback].flatten().forEach({capitulo => capitulo.reproducir(self)})
+		return [self.corrioSangre(),self.esPochoclera(),self.tieneFinalFeliz()]
 	}
+	
+	method asd(){
+		return [guionDeLaPelicula , escenaFlashback]
+	}
+	
+	
+	method aregarFlashback(unFlashback){
+		escenaFlashback.add(unFlashback)
+	}
+	
 	
 	method duracionDeLaPelicula(){
 		return duracion
@@ -30,15 +43,21 @@ class Pelicula {
 	}
 	
 	method personajes (){
-		return personajes
-	}
+		return personajes + self.guionDeLaPelicula().escenas().map({escena => escena.personajesExtras()}).flatten()
+		}
 
 	method guionDeLaPelicula(){
 		return guionDeLaPelicula
 	}
 
 	method corrioSangre(){
-		return self.cantidadDeVivos() < self.personajes().size()/2
+		if(self.cantidadDeVivos() < self.personajes().size()/2){
+			console.println("Corrio Sangre")
+		return true
+		}
+		else{
+			return false
+		} 
 	}
 	
 	method cantidadDeVivos(){
@@ -54,7 +73,13 @@ class Pelicula {
 	}
 	
 	method esPochoclera(){
-		return 	self.hayUnPersonajeHombreVivoYFeliz() and self.hayUnPersonajeMujerVivoYFeliz()
+		if(self.hayUnPersonajeHombreVivoYFeliz() and self.hayUnPersonajeMujerVivoYFeliz()){
+			console.println("es Pochoclera")
+		return true
+		}
+		else{
+			return false
+		} 
 	}
 	
 	method personajesVivos(){
@@ -62,7 +87,13 @@ class Pelicula {
 	}
 	
 	method tieneFinalFeliz(){
-		return self.personajesVivos().all({personaje => personaje.estoyFeliz()})
+		if(self.personajesVivos().all({personaje => personaje.estoyFeliz()})){
+			console.println("Termina con un final feliz")
+		return true
+		}
+		else{
+			return false
+		} 
 	}
 }
 

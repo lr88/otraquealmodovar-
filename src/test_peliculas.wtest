@@ -1,10 +1,5 @@
-//import peliculas.*
-//import personajes.*
-//import guiones.*
 import fixture.*
-import escenas.*
 
- // console.println('Hello Wollok!')
 test
 "En la situacion inicial de la pelicula se consulta cuanto tarda una pelicula completa"
 {	fixture.iniciarContexto()
@@ -37,8 +32,18 @@ test
 }
 
 test
+"Cuando una pelicula transcurre y a esta se le consulta si corrio sangre esta devuelve true si murieron mas de la mitad de los personajes "
+{	fixture.crearPeliculaCompleta()
+	fixture.persona1().estadoDeVida(false)
+	fixture.persona2().estadoDeVida(false)
+	console.println("-----")
+	assert.that(fixture.pelicula1().corrioSangre())
+}
+
+test
 "Cuando una pelicula transcurre y a esta se le consulta si es pochoclera esta devuelve true si hay un personaje hombre y uno mujer que sean felices "
 {	fixture.crearPeliculaCompleta()
+	console.println("-----")
 	assert.that(fixture.pelicula1().esPochoclera())
 }
 
@@ -47,28 +52,35 @@ test
 {	fixture.crearPeliculaCompleta()
 	fixture.pelicula1().sacarPersonaje(fixture.persona3())
 	fixture.pelicula1().sacarPersonaje(fixture.persona4())
+	
 	assert.notThat(fixture.pelicula1().esPochoclera())
 }
 
 test
 "Cuando una pelicula transcurre y a esta se le consulta si es tiene final feliz esta devuelve true si todos los personajes vivos son felices "
 {	fixture.crearPeliculaCompleta()
+	console.println("-----")
 	assert.that(fixture.pelicula1().tieneFinalFeliz())
 }
 
-
-
-
-// revisar
-/////////////////
 test
-"Cuando una pelicula transcurre y en el guion de la pelicula muere uno, este, tiene vivos a todos sus personajes menos 1"
+"Cuando una pelicula transcurre esta cuenta como transcurre la pelicula "
 {	fixture.crearPeliculaCompleta()
-	//var escena = new Escena (2,"vive feliz")
-	//fixture.pelicula1().guionDeLaPelicula().agregarEscena(escena)
-	assert.equals(2,fixture.pelicula1().cantidadDeVivos())
+	console.println("-----")
+	assert.equals([true,false,true],fixture.pelicula1().play())
 }
-////////////////////////////
+
+test"asd"
+{	fixture.crearPeliculaCompleta()
+	console.println("-----")
+	assert.equals([1],fixture.pelicula1().asd())
+}
 
 
 
+
+
+test "Finalizo el testeo" {
+	console.println("Termino el testeo")
+	assert.that(true)
+}

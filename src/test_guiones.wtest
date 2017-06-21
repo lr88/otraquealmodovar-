@@ -1,9 +1,27 @@
 import fixture.*
+import escenas.*
 
-test "Al agregar una Escena a una pelicula este contiene dicho guion" {
+test "Al agregar una Escena al guion de la pelicula esta contiene dicha escena" {
 	fixture.iniciarContexto()
-	fixture.guionDeUnaPelicula().agregarEscena(3)
-	assert.that(fixture.guionDeUnaPelicula().escenas().contains(3))
-
+	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena4())
+	assert.that(fixture.guionDeUnaPelicula().escenas().contains(fixture.escena4()))
 }
   
+test "Al agregar una Escena al guion de la pelicula y se consulta la descripcion de la escena este nos debuelve el valor esperado" {
+	fixture.iniciarContexto()
+	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena2())
+	assert.equals([asesinatos.descripcion()],fixture.guionDeUnaPelicula().queLePasaALosPersonajes())
+}
+
+test "Al agregar dos Escenas al guion de la pelicula y se consulta la descripcion de la escena este nos debuelve el valor esperado" {
+	fixture.iniciarContexto()
+	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena2())
+	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena3())
+	assert.equals([asesinatos.descripcion(),romantica.descripcion()],fixture.guionDeUnaPelicula().queLePasaALosPersonajes())
+}
+
+test "Finalizo el testeo" {
+	console.println("Termino el testeo")
+	assert.that(true)
+}
+

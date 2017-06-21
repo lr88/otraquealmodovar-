@@ -1,7 +1,6 @@
 class Escena {
-	var personajesExtras = []
-	
-	  
+	var personajesExtras = #{}
+		  
 	method agregarExtra(unExtra){
 		personajesExtras.add(unExtra)
 	}
@@ -17,6 +16,7 @@ class Escena {
 
 class EscenaDeAccion inherits Escena{
 	
+	var cantidadDeExplociones = 1 
 	
 	override method queLePasaALosPersonajes(){
 		console.println(accion.descripcion())
@@ -24,19 +24,25 @@ class EscenaDeAccion inherits Escena{
 	}
 	
 	override method transcurrir(unaPelicula){
-		explocion.afectar(unaPelicula,self)
-		
+		if(cantidadDeExplociones!=0){
+			explocion.afectar(unaPelicula,self)
+			cantidadDeExplociones -= 1
+		self.transcurrir(unaPelicula)
+		}
 	}
 	
-	
-
+	method cantidadDeExplociones(valor){
+		cantidadDeExplociones = valor
+	}
 }
 
 object explocion{
 	
+	const valorDeEfectoEnLaFelicidad = -30
+	
 	method afectar(unaPelicula,unaEscena){
 		unaEscena.personajesExtras().forEach({extra => extra.estadoDeVida(false)})
-		unaPelicula.personajes().forEach({personaje => personaje.variarFelicidad(-30)})
+		unaPelicula.personajes().forEach({personaje => personaje.variarFelicidad(valorDeEfectoEnLaFelicidad)})
 	}
 }
 
@@ -66,10 +72,11 @@ class EscenaDeAsesinato inherits Escena {
 			victima.estadoDeVida(false)
 			asesino.variarFelicidad(40)
 		}
-		
-		}
+	}
 }
 
+
+/// redefinir escena romantica
 class EscenaRomantica inherits Escena{
 	
 	const indiceDeAumentoDefelicidad = 2
@@ -125,6 +132,9 @@ class EscenaDeRelleno inherits Escena{
 		unaPelicula.alargarDuracion(30)
 	}
 }
+
+
+
 
 
 
