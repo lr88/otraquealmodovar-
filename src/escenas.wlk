@@ -30,8 +30,6 @@ class EscenaDeAccion inherits Escena{
 	override method transcurrir(unaPelicula){
 		explocion.afectar(unaPelicula,self)
 	}
-	
-	
 
 }
 
@@ -64,9 +62,6 @@ object explocion{
 
 class EscenaDeAsesinato inherits Escena {
 	
-	var victima 
-	var asesino
-	
 	override method queLePasaALosPersonajes(){
 		console.println(asesinatos.descripcion())
 		return asesinatos.descripcion()
@@ -83,10 +78,9 @@ class EscenaDeAsesinato inherits Escena {
 	
 	override method transcurrir(unaPelicula){
 		if(self.hayUnAsesino(unaPelicula)and self.hayUnaVictima(unaPelicula)){
-			victima = (unaPelicula.personajes().filter({personaje => personaje.papelEnLaPelicula()=="victima"})).first()
-			asesino = (unaPelicula.personajes().filter({personaje => personaje.papelEnLaPelicula()=="asesino"})).first()
-			victima.estadoDeVida(false)
-			asesino.variarFelicidad(40)
+			(unaPelicula.personajes().filter({personaje => personaje.papelEnLaPelicula()=="victima"})).first().estadoDeVida(false)
+			(unaPelicula.personajes().filter({personaje => personaje.papelEnLaPelicula()=="asesino"})).first().variarFelicidad(40)
+			
 		}
 	}
 }
@@ -140,16 +134,14 @@ class EscenaDeRelleno inherits Escena{
 }
 
 class EscenaDificil inherits Escena{
-	var personaje1
-	
+		
 	override method queLePasaALosPersonajes(){
 		console.println(dificil.descripcion())
 		return dificil.descripcion()
 	}
 	
 	override method transcurrir(unaPelicula){
-		personaje1 = self.personajesExtras().get(0)
-		personaje1.actitud().actuar(unaPelicula)
+		self.personajesExtras().get(0).actitud().actuar(unaPelicula)
 	}
 }
 

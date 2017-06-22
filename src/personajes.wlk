@@ -10,10 +10,17 @@ class Personaje {
 	var valorDeFelicidad = 100
 	
 	constructor(_sexo,_actitud){
+		
+		if(_sexo == "hombre" or _sexo == "mujer"){
+			sexo = _sexo
+		}
+		else{
+			throw new UserException("La actitud no es valida (bueno, malo o depravadoSexual)")
+		}
+		
 		if(!actitudesPosibles.contains(_actitud)){
-		throw new UserException("La actitud no es valida (bueno, malo o depravadoSexual)")
-	}
-		sexo = _sexo
+			throw new UserException("La actitud no es valida (bueno, malo o depravadoSexual)")
+		}
 		actitud = _actitud
 		}
 		
