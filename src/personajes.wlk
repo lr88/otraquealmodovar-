@@ -15,7 +15,7 @@ class Personaje {
 			sexo = _sexo
 		}
 		else{
-			throw new UserException("La actitud no es valida (bueno, malo o depravadoSexual)")
+			throw new UserException("El sexo ingresado no corresponde a un sexo valido hombre o mujer")
 		}
 		
 		if(!actitudesPosibles.contains(_actitud)){
