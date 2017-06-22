@@ -6,7 +6,7 @@ class UserException inherits wollok.lang.Exception {
 
 class Pelicula {
 		
-	var personajes = #{}
+	var personajes = []
 	var duracion = 10
 	var guionDeLaPelicula 
 	var escenasFlashback
@@ -55,6 +55,10 @@ class Pelicula {
 		personajes.remove(unPersonaje)
 	}
 	
+	method personajesDeLaPelicula(){
+		return self.personajes().asSet()
+	}
+	
 	method personajesDeLosGuiones(){
 		return self.guionDeLaPelicula().escenas().map({escena => escena.personajesExtras()}).flatten()
 	}
@@ -63,12 +67,12 @@ class Pelicula {
 		return self.Flashback().escenas().map({escena => escena.personajesExtras()}).flatten()
 	}
 		
-	method personajes (){
+	method personajes(){
 		if(escenasFlashback!=null){
-		return personajes + self.personajesDeLosGuiones() + self.personajesDeLosFlashback()
+		return (personajes + self.personajesDeLosGuiones() + self.personajesDeLosFlashback())
 		}
 		else {
-			return personajes + self.personajesDeLosGuiones()
+			return (personajes + self.personajesDeLosGuiones())
 		}
 	}
 	method guionDeLaPelicula(){
@@ -94,7 +98,7 @@ class Pelicula {
 	}
 	
 	method hayUnPersonajeHombreVivoYFeliz(){
-		return personajes.any({personaje => personaje.estoyFeliz()and personaje.sexo()== "hombre"and personaje.estoyVivo()})	
+		return personajes.any({personaje => personaje.estoyFeliz() and personaje.sexo()== "hombre"and personaje.estoyVivo()})	
 	}
 	
 	method hayUnPersonajeMujerVivoYFeliz(){
@@ -102,7 +106,7 @@ class Pelicula {
 	}
 	
 	method esPochoclera(){
-		if(self.hayUnPersonajeHombreVivoYFeliz() and self.hayUnPersonajeMujerVivoYFeliz()and explocion.cantidadDeExplociones()>3){
+		if(self.hayUnPersonajeHombreVivoYFeliz() and self.hayUnPersonajeMujerVivoYFeliz() and explocion.cantidadDeExplociones()>3){
 			console.println("es Pochoclera")
 		return true
 		}

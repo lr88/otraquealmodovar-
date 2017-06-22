@@ -116,7 +116,7 @@ object fixture {
 	method persona3(){
 		return persona3
 	}
-	
+	 
 	method persona4(){
 		return persona4
 	}

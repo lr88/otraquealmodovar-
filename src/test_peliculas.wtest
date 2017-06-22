@@ -1,4 +1,5 @@
 import fixture.*
+import escenas.*
 
 test
 "En la situacion inicial de la pelicula se consulta cuanto tarda una pelicula completa"
@@ -45,6 +46,7 @@ test
 "Cuando una pelicula transcurre y a esta se le consulta si es pochoclera esta devuelve true si hay un personaje hombre y uno mujer que sean felices "
 {	fixture.crearPeliculaCompleta()
 	console.println("-----")
+	explocion.cantidadDeExplociones(4)
 	assert.that(fixture.pelicula1().esPochoclera())
 }
 
@@ -53,7 +55,6 @@ test
 {	fixture.crearPeliculaCompleta()
 	fixture.pelicula1().sacarPersonaje(fixture.persona3())
 	fixture.pelicula1().sacarPersonaje(fixture.persona4())
-	
 	assert.notThat(fixture.pelicula1().esPochoclera())
 }
 

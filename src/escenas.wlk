@@ -2,10 +2,10 @@ import personajes.*
 class UserException inherits wollok.lang.Exception {
 	constructor(_mensaje) = super(_mensaje)
 }
-
+ 
 
 class Escena {
-	var personajesExtras = #{}
+	var personajesExtras = []
 		  
 	method agregarExtra(unExtra){
 		personajesExtras.add(unExtra)
@@ -22,15 +22,31 @@ class Escena {
 
 class EscenaDeAccion inherits Escena{
 	
-	var cantidadDeExplociones = 1 
-	
 	override method queLePasaALosPersonajes(){
 		console.println(accion.descripcion())
 		return accion.descripcion()
 	}
 	
 	override method transcurrir(unaPelicula){
-		explocion.afectar(unaPelicula,self,cantidadDeExplociones)
+		explocion.afectar(unaPelicula,self)
+	}
+	
+	
+
+}
+
+object explocion{
+	
+	const valorDeEfectoEnLaFelicidad = -30
+	var cantidadDeExplociones = 1
+		
+	method afectar(unaPelicula,unaEscena){
+		if(cantidadDeExplociones!=0){
+			unaEscena.personajesExtras().forEach({extra => extra.estadoDeVida(false)})
+			unaPelicula.personajes().forEach({personaje => personaje.variarFelicidad(valorDeEfectoEnLaFelicidad)})
+		cantidadDeExplociones -= 1
+		self.afectar(unaPelicula, unaEscena)
+		}
 	}
 	
 	method cantidadDeExplociones(valor){
@@ -43,28 +59,7 @@ class EscenaDeAccion inherits Escena{
 	method cantidadDeExplociones(){
 		return cantidadDeExplociones
 	}
-
-}
-
-object explocion{
 	
-	const valorDeEfectoEnLaFelicidad = -30
-	var cantidadDeExplociones
-		
-	method afectar(unaPelicula,unaEscena,_cantidad){
-		cantidadDeExplociones = _cantidad
-		if(cantidadDeExplociones!=0){
-			unaEscena.personajesExtras().forEach({extra => extra.estadoDeVida(false)})
-			unaPelicula.personajes().forEach({personaje => personaje.variarFelicidad(valorDeEfectoEnLaFelicidad)})
-		cantidadDeExplociones -= 1
-		self.afectar(unaPelicula, unaEscena, cantidadDeExplociones)
-		}
-	}
-	
-	method cantidadDeExplociones(){
-		return cantidadDeExplociones
-	}
-
 }
 
 class EscenaDeAsesinato inherits Escena {
@@ -88,9 +83,9 @@ class EscenaDeAsesinato inherits Escena {
 	
 	override method transcurrir(unaPelicula){
 		if(self.hayUnAsesino(unaPelicula)and self.hayUnaVictima(unaPelicula)){
-			victima = unaPelicula.personajes().find({personaje => personaje.papelEnLaPelicula()=="victima"})
-			asesino = unaPelicula.personajes().find({personaje => personaje.papelEnLaPelicula()=="asesino"})
-			victima.estadoDeVida(false) 
+			victima = (unaPelicula.personajes().filter({personaje => personaje.papelEnLaPelicula()=="victima"})).first()
+			asesino = (unaPelicula.personajes().filter({personaje => personaje.papelEnLaPelicula()=="asesino"})).first()
+			victima.estadoDeVida(false)
 			asesino.variarFelicidad(40)
 		}
 	}
@@ -115,8 +110,8 @@ class EscenaRomantica inherits Escena{
 	}
 	
 	method participantesDeLaEscena(unaPelicula){
-		personaje1 = unaPelicula.personajes().find(({personaje => personaje.actitud()==bueno}))
-		personaje2 = unaPelicula.personajes().find(({personaje => personaje.estoyVivo()}))
+		personaje1 = unaPelicula.personajes().get(0)
+		personaje2 = unaPelicula.personajes().get(1)
 	}
 	
 	method tenerSexo(){
@@ -153,7 +148,7 @@ class EscenaDificil inherits Escena{
 	}
 	
 	override method transcurrir(unaPelicula){
-		personaje1 = self.personajesExtras().find(({personaje => personaje.estoyVivo()}))
+		personaje1 = self.personajesExtras().get(0)
 		personaje1.actitud().actuar(unaPelicula)
 	}
 }

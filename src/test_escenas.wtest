@@ -32,7 +32,7 @@ test "Cuando a una escena se le consulta los personajes Extras, esta contiene lo
 	fixture.escena1().agregarExtra(fixture.persona2())
 	assert.that(fixture.escena1().personajesExtras().contains(fixture.persona1())and fixture.escena1().personajesExtras().contains(fixture.persona2()))
 }
-
+ 
 test "Cuando una explocion sucede, los personajes Extras, mueren pero los actores principales no" {
 	fixture.iniciarContexto()
 	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena1())
