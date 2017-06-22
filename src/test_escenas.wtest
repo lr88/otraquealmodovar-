@@ -21,6 +21,11 @@ test "Una escena relleno al crearla contiene su descripcion de la escena" {
 	assert.equals(relleno.descripcion(), fixture.escena4().queLePasaALosPersonajes())
 }
 
+test "Una escena Titulos y Creditos al crearla contiene su descripcion de la escena" {
+	fixture.iniciarContexto()
+	assert.equals(titulosYCreditos.descripcion(), fixture.escena5().queLePasaALosPersonajes())
+}
+
 test "Cuando a una escena se le consulta los personajes Extras, esta contiene los personajes que se agregaron" {
 	fixture.iniciarContexto()
 	fixture.escena1().agregarExtra(fixture.persona1())
@@ -87,8 +92,15 @@ test "Cuando una escena de relleno transcurre, el tiempo de la pelicula aumenta 
 	fixture.escena4().transcurrir(fixture.pelicula1())
 	assert.equals(40,fixture.pelicula1().duracionDeLaPelicula())
 }
+ 
+test "Cuando una escena dificil transcurre, y el personaje es malo este mata a todos " {
+	fixture.crearUnaPeliculaConFlashback()
+	fixture.escena6().transcurrir(fixture.pelicula1())
+	assert.notThat(fixture.pelicula1().personajes().all({personaje => personaje.estoyVivo()}))
+}
 
-test "Finalizo el testeo" {
-	console.println("Termino el testeo")
-	assert.that(true)
+test "Cuando una escena de Titulos y Creditos transcurre, el tiempo de la pelicula aumenta " {
+	fixture.crearPeliculaCompleta()
+	fixture.escena5().transcurrir(fixture.pelicula1())
+	assert.equals(40,fixture.pelicula1().duracionDeLaPelicula())
 }

@@ -1,4 +1,5 @@
 import fixture.*
+import personajes.*
 
 test "Cuando se crea un personaje este se le pregunta el sexo y contesta con el sexo correcto " {
 	fixture.iniciarContexto()
@@ -61,8 +62,22 @@ test "Cuando se crea un personaje y este es Extra y le decimos besar, no produce
 	fixture.persona4().darseUnBeso(30)
 	assert.equals(100,fixture.persona4().valorDeMiFelicidad())
 }
-test "Finalizo el testeo" {
-	console.println("Termino el testeo")
-	assert.that(true)
+
+test "Cuando un personaje tiene una actitud malo mata a todos  " {
+	fixture.crearUnaPeliculaConFlashback()
+	malo.actuar(fixture.pelicula1())
+	assert.notThat(fixture.pelicula1().personajes().all({personaje => personaje.estoyVivo()}))
+}
+
+test "Cuando un personaje tiene una actitud buena besa a todos y sube la felicidad" {
+	fixture.crearUnaPeliculaConFlashback()
+	bueno.actuar(fixture.pelicula1())
+	assert.equals(130, fixture.persona3().valorDeMiFelicidad())
+}
+
+test "Cuando un personaje tiene una actitud depravadoSexual tiene sexo con todos y sube la felicidad" {
+	fixture.crearUnaPeliculaConFlashback()
+	depravadoSexual.actuar(fixture.pelicula1())
+	assert.equals(160, fixture.persona3().valorDeMiFelicidad())
 }
   

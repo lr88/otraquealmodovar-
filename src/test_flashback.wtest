@@ -1,0 +1,21 @@
+import fixture.*
+import escenas.*
+
+test "Al agregar una Escena flashback a la pelicula esta contiene dicha escena" {
+	fixture.iniciarContexto()
+	fixture.flashbackDeUnaPelicula().agregarEscena(fixture.escena4())
+	assert.that(fixture.flashbackDeUnaPelicula().escenas().contains(fixture.escena4()))
+}
+  
+test "Al agregar una Escena flashback a la pelicula y se consulta la descripcion de la escena este nos debuelve el valor esperado" {
+	fixture.iniciarContexto()
+	fixture.flashbackDeUnaPelicula().agregarEscena(fixture.escena2())
+	assert.equals([asesinatos.descripcion()],fixture.flashbackDeUnaPelicula().queLePasaALosPersonajes())
+}
+
+test "Al agregar dos Escena flashback a la pelicula y se consulta la descripcion de la escena este nos debuelve el valor esperado" {
+	fixture.iniciarContexto()
+	fixture.flashbackDeUnaPelicula().agregarEscena(fixture.escena2())
+	fixture.flashbackDeUnaPelicula().agregarEscena(fixture.escena3())
+	assert.equals([asesinatos.descripcion(),romantica.descripcion()],fixture.flashbackDeUnaPelicula().queLePasaALosPersonajes())
+}

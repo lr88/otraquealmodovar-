@@ -1,3 +1,9 @@
+import personajes.*
+class UserException inherits wollok.lang.Exception {
+	constructor(_mensaje) = super(_mensaje)
+}
+
+
 class Escena {
 	var personajesExtras = #{}
 		  
@@ -24,26 +30,41 @@ class EscenaDeAccion inherits Escena{
 	}
 	
 	override method transcurrir(unaPelicula){
-		if(cantidadDeExplociones!=0){
-			explocion.afectar(unaPelicula,self)
-			cantidadDeExplociones -= 1
-		self.transcurrir(unaPelicula)
-		}
+		explocion.afectar(unaPelicula,self,cantidadDeExplociones)
 	}
 	
 	method cantidadDeExplociones(valor){
+		if(valor<1){
+			throw new UserException("La cantidad debe ser positiva y mayor a 1")
+		}
 		cantidadDeExplociones = valor
 	}
+	
+	method cantidadDeExplociones(){
+		return cantidadDeExplociones
+	}
+
 }
 
 object explocion{
 	
 	const valorDeEfectoEnLaFelicidad = -30
-	
-	method afectar(unaPelicula,unaEscena){
-		unaEscena.personajesExtras().forEach({extra => extra.estadoDeVida(false)})
-		unaPelicula.personajes().forEach({personaje => personaje.variarFelicidad(valorDeEfectoEnLaFelicidad)})
+	var cantidadDeExplociones
+		
+	method afectar(unaPelicula,unaEscena,_cantidad){
+		cantidadDeExplociones = _cantidad
+		if(cantidadDeExplociones!=0){
+			unaEscena.personajesExtras().forEach({extra => extra.estadoDeVida(false)})
+			unaPelicula.personajes().forEach({personaje => personaje.variarFelicidad(valorDeEfectoEnLaFelicidad)})
+		cantidadDeExplociones -= 1
+		self.afectar(unaPelicula, unaEscena, cantidadDeExplociones)
+		}
 	}
+	
+	method cantidadDeExplociones(){
+		return cantidadDeExplociones
+	}
+
 }
 
 class EscenaDeAsesinato inherits Escena {
@@ -67,16 +88,14 @@ class EscenaDeAsesinato inherits Escena {
 	
 	override method transcurrir(unaPelicula){
 		if(self.hayUnAsesino(unaPelicula)and self.hayUnaVictima(unaPelicula)){
-			victima = unaPelicula.personajes().filter({personaje => personaje.papelEnLaPelicula()=="victima"}).first()
-			asesino = unaPelicula.personajes().filter({personaje => personaje.papelEnLaPelicula()=="asesino"}).first()
-			victima.estadoDeVida(false)
+			victima = unaPelicula.personajes().find({personaje => personaje.papelEnLaPelicula()=="victima"})
+			asesino = unaPelicula.personajes().find({personaje => personaje.papelEnLaPelicula()=="asesino"})
+			victima.estadoDeVida(false) 
 			asesino.variarFelicidad(40)
 		}
 	}
 }
 
-
-/// redefinir escena romantica
 class EscenaRomantica inherits Escena{
 	
 	const indiceDeAumentoDefelicidad = 2
@@ -91,21 +110,13 @@ class EscenaRomantica inherits Escena{
 
 	override method transcurrir(unaPelicula){
 		self.participantesDeLaEscena(unaPelicula)
-		self.aumentarFelicidad()
+		self.darseUnBeso()
+		self.tenerSexo()
 	}
 	
-	method participantesDeLaEscena(unaPelicula){//// CONSULTAR CRITERIO PARA ELEGIR A LOS PERSONAJES
-		personaje1 = (unaPelicula.personajes() + self.personajesExtras()).get(2)
-		personaje2 = (unaPelicula.personajes() + self.personajesExtras()).get(4)
-	}
-	
-	method aumentarFelicidad(){
-		if(personaje1.sexo() == "mujer"){//// CONSULTAR CRITERIO PARA TENER SEXO O NO
-			self.tenerSexo()
-		}
-		else{
-			self.darseUnBeso()
-		}
+	method participantesDeLaEscena(unaPelicula){
+		personaje1 = unaPelicula.personajes().find(({personaje => personaje.actitud()==bueno}))
+		personaje2 = unaPelicula.personajes().find(({personaje => personaje.estoyVivo()}))
 	}
 	
 	method tenerSexo(){
@@ -121,7 +132,7 @@ class EscenaRomantica inherits Escena{
 }
 
 class EscenaDeRelleno inherits Escena{
-	
+	const tiempoDeAlargue = 30
 	
 	override method queLePasaALosPersonajes(){
 		console.println(relleno.descripcion())
@@ -129,16 +140,33 @@ class EscenaDeRelleno inherits Escena{
 	}
 	
 	override method transcurrir(unaPelicula){
-		unaPelicula.alargarDuracion(30)
+		unaPelicula.alargarDuracion(tiempoDeAlargue)
+	}
+}
+
+class EscenaDificil inherits Escena{
+	var personaje1
+	
+	override method queLePasaALosPersonajes(){
+		console.println(dificil.descripcion())
+		return dificil.descripcion()
+	}
+	
+	override method transcurrir(unaPelicula){
+		personaje1 = self.personajesExtras().find(({personaje => personaje.estoyVivo()}))
+		personaje1.actitud().actuar(unaPelicula)
 	}
 }
 
 
-
-
-
-
-
+class TitulosYCreditos inherits EscenaDeRelleno{
+	
+	override method queLePasaALosPersonajes(){
+		console.println(titulosYCreditos.descripcion())
+		return titulosYCreditos.descripcion()
+	}
+	
+}
 
 object romantica{
 	method descripcion(){
@@ -161,5 +189,18 @@ object asesinatos{
 object relleno{
 	method descripcion(){
 		return "En las películas nunca faltan escenas de relleno que no agregan nada interesante a la película, sino que sólo la hacen más larga."
+	}
+}
+
+object dificil{
+	
+	method descripcion() {
+		return "En las escenas difíciles de definir hay un personaje que está rodeado por otros y si el personaje es bueno, les da un beso a cada uno, pero si es malo los mata. Lo que sucede es que en muchas películas el que era bueno se transforma en malo o al revés. Aparte, en otras películas hay quienes no son ni buenos ni malos sino que adquieren otras características. Por ejemplo, un personaje puede ser depravado sexual y lo que hace es tener sexo con todos con quienes comparte la escena, pero a su vez en otro momento de la película puede tener una Manifestación y hacerse bueno."
+	}
+}
+
+object titulosYCreditos{
+	method descripcion(){
+		return "TITULOS Y CREDITOS"
 	}
 }

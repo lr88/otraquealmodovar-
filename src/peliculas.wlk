@@ -1,36 +1,46 @@
+import escenas.*
+
+class UserException inherits wollok.lang.Exception {
+	constructor(_mensaje) = super(_mensaje)
+}
+
 class Pelicula {
 		
-	var personajes = []
+	var personajes = #{}
 	var duracion = 10
 	var guionDeLaPelicula 
-	var escenaFlashback = []
+	var escenasFlashback
 	
 	constructor(_guionDeLaPelicula,_duracion){
+		if(_duracion<0){
+			throw new UserException("La duracion de la pelicula debe ser positiva ")
+		}
+		
 		guionDeLaPelicula = _guionDeLaPelicula
 		duracion = _duracion
 	}  
 	
 	method play(){
 		console.println("La conclusion  de esta pelicula es que")
-		[guionDeLaPelicula , escenaFlashback].flatten().forEach({capitulo => capitulo.reproducir(self)})
+		guionDeLaPelicula.reproducir(self)
+		if(escenasFlashback!=null){
+			escenasFlashback.reproducir(self)
+		}
 		return [self.corrioSangre(),self.esPochoclera(),self.tieneFinalFeliz()]
 	}
 	
-	method asd(){
-		return [guionDeLaPelicula , escenaFlashback]
-	}
-	
-	
 	method aregarFlashback(unFlashback){
-		escenaFlashback.add(unFlashback)
+		escenasFlashback = unFlashback
 	}
-	
-	
+		
 	method duracionDeLaPelicula(){
 		return duracion
 	}
 
 	method alargarDuracion(valor){
+		if(valor<0){
+			throw new UserException("La duracion de alargue de la pelicula debe ser positiva ")
+		}
 		duracion += valor
 	}
 	
@@ -39,16 +49,35 @@ class Pelicula {
 	}
 	
 	method sacarPersonaje(unPersonaje){
+		if(!personajes.contains(unPersonaje)){
+			throw new UserException("La duracion de alargue de la pelicula debe ser positiva ")
+		}
 		personajes.remove(unPersonaje)
 	}
 	
+	method personajesDeLosGuiones(){
+		return self.guionDeLaPelicula().escenas().map({escena => escena.personajesExtras()}).flatten()
+	}
+	
+	method personajesDeLosFlashback(){
+		return self.Flashback().escenas().map({escena => escena.personajesExtras()}).flatten()
+	}
+		
 	method personajes (){
-		return personajes + self.guionDeLaPelicula().escenas().map({escena => escena.personajesExtras()}).flatten()
+		if(escenasFlashback!=null){
+		return personajes + self.personajesDeLosGuiones() + self.personajesDeLosFlashback()
 		}
-
+		else {
+			return personajes + self.personajesDeLosGuiones()
+		}
+	}
 	method guionDeLaPelicula(){
 		return guionDeLaPelicula
 	}
+
+	method Flashback(){
+		return escenasFlashback
+	}	
 
 	method corrioSangre(){
 		if(self.cantidadDeVivos() < self.personajes().size()/2){
@@ -73,7 +102,7 @@ class Pelicula {
 	}
 	
 	method esPochoclera(){
-		if(self.hayUnPersonajeHombreVivoYFeliz() and self.hayUnPersonajeMujerVivoYFeliz()){
+		if(self.hayUnPersonajeHombreVivoYFeliz() and self.hayUnPersonajeMujerVivoYFeliz()and explocion.cantidadDeExplociones()>3){
 			console.println("es Pochoclera")
 		return true
 		}
@@ -96,14 +125,3 @@ class Pelicula {
 		} 
 	}
 }
-
-
-
-
-
-
-
-
-
-
-

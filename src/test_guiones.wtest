@@ -19,9 +19,3 @@ test "Al agregar dos Escenas al guion de la pelicula y se consulta la descripcio
 	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena3())
 	assert.equals([asesinatos.descripcion(),romantica.descripcion()],fixture.guionDeUnaPelicula().queLePasaALosPersonajes())
 }
-
-test "Finalizo el testeo" {
-	console.println("Termino el testeo")
-	assert.that(true)
-}
-

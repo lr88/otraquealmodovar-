@@ -1,14 +1,35 @@
+class UserException inherits wollok.lang.Exception {
+	constructor(_mensaje) = super(_mensaje)
+}
+
 class Personaje {
+	const actitudesPosibles = [bueno,malo,depravadoSexual]
 	var sexo
+	var actitud
 	var estoyVivo = true
 	var valorDeFelicidad = 100
 	
-	constructor(_sexo){
+	constructor(_sexo,_actitud){
+		if(!actitudesPosibles.contains(_actitud)){
+		throw new UserException("La actitud no es valida (bueno, malo o depravadoSexual)")
+	}
 		sexo = _sexo
+		actitud = _actitud
 		}
-	  
+		
 	method sexo(){
 		return sexo
+	}
+	
+	method actitud(){
+		return actitud
+	}
+	
+	method cambiarActitud(unaActitud){
+		if(!actitudesPosibles.contains(_actitud)){
+		throw new UserException("La actitud que se quiere cambiar no es valida "+ actitudesPosibles)
+	}
+		actitud = unaActitud
 	}
 	
 	method estoyVivo(){
@@ -40,8 +61,8 @@ class Personaje {
 
 class Asesino inherits Personaje {
 	
-	constructor(_sexo) = super(_sexo)
-
+	constructor(_sexo,_actitud) = super(_sexo,_actitud)
+	
 	method papelEnLaPelicula(){
 		return "asesino"
 	}
@@ -54,7 +75,7 @@ class Asesino inherits Personaje {
 
 class Protagonico inherits Personaje {
 	
-		constructor(_sexo) = super(_sexo)
+		constructor(_sexo,_actitud) = super(_sexo,_actitud)
 
 	method papelEnLaPelicula(){
 		return "protagonico"
@@ -72,7 +93,7 @@ class Protagonico inherits Personaje {
 
 class Extra inherits Personaje {
 	
-		constructor(_sexo) = super(_sexo)
+		constructor(_sexo,_actitud) = super(_sexo,_actitud)
 
 	method papelEnLaPelicula(){
 		return "extra"
@@ -88,7 +109,7 @@ class Extra inherits Personaje {
 
 class Victima inherits Personaje {
 	
-	constructor(_sexo) = super(_sexo)
+	constructor(_sexo,_actitud) = super(_sexo,_actitud)
 
 	method papelEnLaPelicula(){
 		return "victima"
@@ -99,4 +120,24 @@ class Victima inherits Personaje {
 	override method darseUnBeso(valor){}
 
 }
+
+object bueno{
+	const valorDeAumentoDefelicidad = 30
+	method actuar(unaPelicula){
+		unaPelicula.personajes().forEach({personaje => personaje.darseUnBeso(valorDeAumentoDefelicidad)})
+	}
+}
+object malo{
+	method actuar(unaPelicula){
+		unaPelicula.personajes().forEach({personaje => personaje.estadoDeVida(false)})
+	}
+}
+object depravadoSexual {
+	const valorDeAumentoDefelicidad = 60
+	method actuar(unaPelicula){
+		unaPelicula.personajes().forEach({personaje => personaje.tenerSexo(valorDeAumentoDefelicidad)})
+	}
+}
+
+
 

@@ -1,13 +1,15 @@
-
+class UserException inherits wollok.lang.Exception {
+	constructor(_mensaje) = super(_mensaje)
+}
 class GuionDeLaPelicula {
 	var escenas = [ ]
 
 	method queLePasaALosPersonajes() {
-		return escenas.map({ escena => escena.queLePasaALosPersonajes()})
+		return self.escenas().map({escena => escena.queLePasaALosPersonajes()})
 	}
   
 	method reproducir(unaPelicula) {
-		escenas.forEach({escena => escena.transcurrir(unaPelicula)})
+		self.escenas().forEach({escena => escena.transcurrir(unaPelicula)})
 	}
 
 	method agregarEscena(unaEscena) {
@@ -15,11 +17,13 @@ class GuionDeLaPelicula {
 	}
 	
 	method escenas(){
+		if(escenas.size()==0){
+			throw new UserException("El guion de la pelicula no tiene escenas cargadas")
+		}
 		return escenas
 	}
 }
 
 class EscenaFlashback inherits GuionDeLaPelicula{
-	
-	
+
 }

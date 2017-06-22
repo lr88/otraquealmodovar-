@@ -9,6 +9,7 @@ test
 test
 "En la situacion inicial de la pelicula se consulta quienes son los personajes de la pelicula"
 {	fixture.iniciarContexto()
+	fixture.guionDeUnaPelicula().agregarEscena(fixture.escena1())
 	fixture.pelicula1().aregarPersonaje(fixture.persona1())
 	assert.that(fixture.pelicula1().personajes().contains(fixture.persona1()))
 }
@@ -70,17 +71,9 @@ test
 	assert.equals([true,false,true],fixture.pelicula1().play())
 }
 
-test"asd"
-{	fixture.crearPeliculaCompleta()
+test
+"Cuando una pelicula que contiene un Flashback transcurre esta cuenta como transcurre la pelicula "
+{	fixture.crearUnaPeliculaConFlashback()
 	console.println("-----")
-	assert.equals([1],fixture.pelicula1().asd())
-}
-
-
-
-
-
-test "Finalizo el testeo" {
-	console.println("Termino el testeo")
-	assert.that(true)
+	assert.equals([true,false,true],fixture.pelicula1().play())
 }
